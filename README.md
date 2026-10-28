@@ -10,8 +10,11 @@ I built this to learn how Monte Carlo methods handle problems that don't have ne
 - Added a small Streamlit dashboard to play with the parameters.
 
 ## What I found
-- [e.g. Standard MC error fell roughly like 1/√N, as expected. Sobol reached the same accuracy with about __x fewer paths for European options, but the gain was smaller for Asian and barrier options.]
-- [e.g. Barrier prices shifted as I added more time steps, because checking the barrier only at discrete times misses some crossings.]
+- **The engine matches Black–Scholes.** With 131,072 paths, the European call came out at 10.466 ± 0.041 vs the exact 10.451, within one standard error.
+- **Sobol helps a lot, but less as the dimension grows.** Over 20 repeated runs, Sobol cut the error by ~300x for a one-step European option, but only ~5–9x once each path had 52–252 time steps (European and Asian). More steps means more dimensions, and quasi-random points lose their edge.
+- **Barrier prices depend heavily on the time step.** The up-and-out call fell from 1.86 (12 steps) to 1.35 (252) to 1.26 (1,000 steps), still above thecontinuous-monitoring formula value of 1.18. Checking the barrier only at discrete times misses crossings, so the simulation overprices it.
+- **Delta needs a sensible bump size.** A 0.01% bump gave a wildly noisy Delta (standard deviation ~6 across runs). A 1% bump gave 0.646 ± 0.030, close to the Black–Scholes value of 0.637. Independent random paths for the up and down prices make tiny bumps useless.
+- **Heston barely moves vanilla prices here but changes the barrier a lot. **European and Asian prices were within noise of GBM, but the barrier option rose from 1.32 to 2.17. With ρ = −0.7, volatility drops as the price rises, so fewer paths hit the barrier.
 
 ## What I'd improve next
 - Correct for the discrete barrier monitoring bias.
