@@ -5,7 +5,7 @@ I built this to learn how Monte Carlo methods handle problems that don't have ne
 ## What I did
 - Simulated GBM using exact log-normal steps, and Heston using full-truncation Euler–Maruyama (so the variance can't go negative).
 - Checked the European prices against the Black–Scholes formula to make sure the engine was working before trusting the exotic options.
-- Compared standard random sampling with Sobol quasi-random sequences to seehow much faster the price converges.
+- Compared standard random sampling with Sobol quasi-random sequences to see how much faster the price converges.
 - Estimated Delta using central finite differences.
 - Added a small Streamlit dashboard to play with the parameters.
 
