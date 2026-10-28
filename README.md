@@ -1,28 +1,21 @@
-# Quantitative Monte Carlo Option Pricing Engine
+# Monte Carlo Option Pricer
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Streamlit](https://img.shields.io/badge/UI-Streamlit-red.svg)
+I built this to learn how Monte Carlo methods handle problems that don't have neat closed-form answers. It prices European, Asian and up-and-out barrier options under two models: Geometric Brownian Motion and the Heston stochastic volatility model.
 
-An object-oriented Monte Carlo pricing and risk simulation engine in Python. The system values European, path-dependent (Arithmetic Asian), and exotic (Knock-Out Barrier) options under both constant volatility (Geometric Brownian Motion) and stochastic volatility (Heston Model) dynamics.
+## What I did
+- Simulated GBM using exact log-normal steps, and Heston using full-truncation Euler–Maruyama (so the variance can't go negative).
+- Checked the European prices against the Black–Scholes formula to make sure the engine was working before trusting the exotic options.
+- Compared standard random sampling with Sobol quasi-random sequences to seehow much faster the price converges.
+- Estimated Delta using central finite differences.
+- Added a small Streamlit dashboard to play with the parameters.
 
-It incorporates **Quasi-Monte Carlo (Sobol low-discrepancy sequences)** for variance reduction and validates convergence bounds against analytical **Black-Scholes-Merton** solutions.
+## What I found
+- [e.g. Standard MC error fell roughly like 1/√N, as expected. Sobol reached the same accuracy with about __x fewer paths for European options, but the gain was smaller for Asian and barrier options.]
+- [e.g. Barrier prices shifted as I added more time steps, because checking the barrier only at discrete times misses some crossings.]
 
----
-
-## Key Features
-
-* **Decoupled Architecture:** Implements the Strategy design pattern to separate stochastic dynamics (`StochasticProcess`), payoff structures (`OptionPayoff`), and execution (`MonteCarloEngine`).
-* **Multi-Model Dynamics:**
-  * **Geometric Brownian Motion (GBM):** Analytical log-Euler increments with Itô drift correction.
-  * **Heston Stochastic Volatility:** Full-truncation Euler-Maruyama discretization capturing mean-reverting variance and spot-volatility leverage effects ($\rho$).
-* **Diverse Payoff Support:**
-  * European Vanilla (Call/Put)
-  * Arithmetic Asian (Path-averaged monitoring)
-  * Up-and-Out Barrier (Continuous trajectory threshold monitoring)
-* **Quasi-Monte Carlo Sampling:** Low-discrepancy Sobol sequences via `scipy.stats.qmc` to accelerate numerical convergence from $\mathcal{O}(1/\sqrt{N})$ toward $\mathcal{O}(1/N)$.
-* **Risk Greeks:** First-order sensitivity calculation ($\Delta$) via central finite differences under simulation-noise bounds.
-* **Interactive Dashboard:** Full Streamlit web interface with real-time parameter tweaking, trajectory plots, terminal distributions, and convergence benchmarks.
+## What I'd improve next
+- Correct for the discrete barrier monitoring bias.
+- Add more Greeks (Gamma, Vega) and variance reduction like control variates.
 
 ---
 
