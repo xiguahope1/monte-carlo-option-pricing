@@ -1,4 +1,4 @@
-# Monte Carlo Option Pricer
+# Monte Carlo Option Pricing
 
 I built this to learn how Monte Carlo methods handle problems that don't have neat closed-form answers. It prices European, Asian and up-and-out barrier options under two models: Geometric Brownian Motion and the Heston stochastic volatility model.
 
@@ -30,7 +30,6 @@ monte-carlo-pricer/
 ├── models.py        # Stochastic processes (GBM, Heston Model)
 ├── payoffs.py       # Payoff strategy classes (European, Asian, Barrier)
 ├── engine.py        # Monte Carlo simulation engine & Greeks calculation
-├── analytical.py    # Analytical Black-Scholes-Merton closed-form benchmark
 ├── app.py           # Streamlit web application & interactive dashboard
 ├── main.py          # Command-line benchmark script
 ├── requirements.txt # Project dependencies
